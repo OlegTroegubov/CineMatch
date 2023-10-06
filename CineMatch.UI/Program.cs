@@ -1,8 +1,12 @@
+using CineMatch.Application;
+using CineMatch.Infrastructure;
+using CineMatch.UI;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllersWithViews();
+builder.Services.AddWebUI();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
