@@ -1,4 +1,5 @@
 import {Home} from "./components/Home";
+import {Movie} from "./components/Movie";
 
 const AppRoutes = [
     {
