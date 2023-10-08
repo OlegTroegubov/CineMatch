@@ -26,7 +26,7 @@ public class MovieController : ControllerBase
     [HttpGet("getTestMovie")]
     public MovieDto GetTestMovie()
     {
-        return new MovieDto()
+        return new MovieDto
         {
             Id = 1,
             Title = "test",
@@ -36,7 +36,7 @@ public class MovieController : ControllerBase
             ShortDescription = "test",
             Genres = new List<GenreDto>
             {
-                new GenreDto() { Title = "test" }
+                new() { Title = "test" }
             }
         };
     }

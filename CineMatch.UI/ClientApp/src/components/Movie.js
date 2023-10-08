@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 export class Movie extends Component {
     static displayName = Movie.name;
 
     constructor(props) {
         super(props);
-        this.state = { movie: null, loading: true };
-    }
-
-    componentDidMount() {
-        this.populateMovieData();
+        this.state = {movie: null, loading: true};
     }
 
     static renderMovieDetails(movie) {
@@ -19,9 +15,13 @@ export class Movie extends Component {
                 <p>Rating: {movie.rating}</p>
                 <p>Year: {movie.releaseYear}</p>
                 <p>Short Description: {movie.shortDescription}</p>
-                <img src={movie.posterUrl} alt={movie.title} />
+                <img src={movie.posterUrl} alt={movie.title}/>
             </div>
         );
+    }
+
+    componentDidMount() {
+        this.populateMovieData();
     }
 
     render() {
@@ -40,6 +40,6 @@ export class Movie extends Component {
     async populateMovieData() {
         const response = await fetch('api/movie/getMovie'); // Assuming the endpoint is 'movie'
         const data = await response.json();
-        this.setState({ movie: data, loading: false });
+        this.setState({movie: data, loading: false});
     }
 }
