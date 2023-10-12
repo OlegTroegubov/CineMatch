@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿#nullable enable
+using System.Text;
 using CineMatch.Application.Features.Genre;
 using CineMatch.Application.Features.Movie.Dtos;
 using MediatR;
@@ -7,7 +8,7 @@ using Newtonsoft.Json;
 namespace CineMatch.Application.Features.Movie.Queries;
 
 //Надо будет добавить в query поиск по годам, жанрам, и по топ 10 или 250
-public record GetMoviesQuery(int StartReleaseYear, int EndReleaseYear, string Genres) : IRequest<List<MovieDto>>;
+public record GetMoviesQuery(int StartReleaseYear, int EndReleaseYear, string? Genres) : IRequest<List<MovieDto>>;
 
 public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDto>>
 {
@@ -55,7 +56,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
     /// <param name="apiUrl"></param>
     private static void AppendGenresToUrl(GetMoviesQuery request, StringBuilder apiUrl)
     {
-        if (request.Genres != null)
+        if (!string.IsNullOrEmpty(request.Genres))
         {
             var genres = request.Genres.Split(',');
             foreach (var genre in genres) apiUrl.Append($"&genres.name={Uri.EscapeDataString(genre)}");

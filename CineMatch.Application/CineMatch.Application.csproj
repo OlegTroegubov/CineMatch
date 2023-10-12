@@ -7,18 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Features\Movie\Commands\" />
+        <Folder Include="Features\Movie\Commands\"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="11.1.0" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="MediatR" Version="11.1.0"/>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CineMatch.Domain\CineMatch.Domain.csproj" />
+        <ProjectReference Include="..\CineMatch.Domain\CineMatch.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

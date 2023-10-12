@@ -1,5 +1,4 @@
-﻿using CineMatch.Application.Features.Genre;
-using CineMatch.Application.Features.Movie.Dtos;
+﻿using CineMatch.Application.Features.Movie.Dtos;
 using CineMatch.Application.Features.Movie.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +17,8 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet("getMovies")]
-    public async Task<List<MovieDto>> Get(int startReleaseYear, int endReleaseYear, string genres, CancellationToken cancellationToken)
+    public async Task<List<MovieDto>> Get(int startReleaseYear, int endReleaseYear, string? genres,
+        CancellationToken cancellationToken)
     {
         return await _mediator.Send(new GetMoviesQuery(startReleaseYear, endReleaseYear, genres), cancellationToken);
     }
