@@ -33,10 +33,11 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
                                            "&selectFields=shortDescription" +
                                            "&selectFields=genres" +
                                            "&selectFields=poster" +
-                                           "&selectFields=rating.imdb" +
+                                           "&selectFields=rating.kp" +
                                            "&selectFields=year" +
                                            $"&page={_numberPage}" +
-                                           "&limit=10");
+                                           "&limit=10" +
+                                           "&shortDescription=%21null");
 
             AppendYearRangeToUrl(request, apiUrl);
             AppendGenresToUrl(request, apiUrl);
@@ -114,7 +115,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
                 ShortDescription = movieData.shortDescription,
                 ReleaseYear = movieData.year,
                 PosterUrl = movieData.poster.url,
-                Rating = movieData.rating.imdb,
+                Rating = movieData.rating.kp,
                 Genres = genreDtoList
             };
 
