@@ -17,27 +17,9 @@ public class MovieController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("getMovie")]
-    public async Task<MovieDto> Get()
+    [HttpGet("getMovies")]
+    public async Task<List<MovieDto>> Get(int startReleaseYear, int endReleaseYear, string genres, CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new GetMovieQuery());
-    }
-
-    [HttpGet("getTestMovie")]
-    public MovieDto GetTestMovie()
-    {
-        return new MovieDto
-        {
-            Id = 1,
-            Title = "test",
-            PosterUrl = "localhost",
-            Rating = 9.7f,
-            ReleaseYear = 2008,
-            ShortDescription = "test",
-            Genres = new List<GenreDto>
-            {
-                new() { Title = "test" }
-            }
-        };
+        return await _mediator.Send(new GetMoviesQuery(startReleaseYear, endReleaseYear, genres), cancellationToken);
     }
 }
