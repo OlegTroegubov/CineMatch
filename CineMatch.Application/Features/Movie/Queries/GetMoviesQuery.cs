@@ -30,7 +30,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
             var apiUrl = new StringBuilder("https://api.kinopoisk.dev/v1.3/movie?" +
                                            "selectFields=id" +
                                            "&selectFields=name" +
-                                           "&selectFields=shortDescription" +
+                                           "&selectFields=description" +
                                            "&selectFields=genres" +
                                            "&selectFields=poster" +
                                            "&selectFields=rating.kp" +
@@ -112,7 +112,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
             {
                 Id = movieData.id,
                 Title = movieData.name,
-                ShortDescription = movieData.shortDescription,
+                Description = movieData.description,
                 ReleaseYear = movieData.year,
                 PosterUrl = movieData.poster.url,
                 Rating = movieData.rating.kp,
