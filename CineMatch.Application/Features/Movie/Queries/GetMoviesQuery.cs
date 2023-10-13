@@ -14,7 +14,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
 {
     //статическая переменная хранит одно и то же значение для всех экземпляров хэндлера
     //(поэтому мы получаем каждый раз новый фильм)
-    private static readonly int _numberPage = 1;
+    private static int _numberPage = 1;
 
     //апи ключ, если мой закончится надо взять свой и добавить сюда
     private readonly string _apiKey = "PDA2HPM-7ZA493S-GXGC0W4-HRSD32W";
@@ -30,7 +30,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
             var apiUrl = new StringBuilder("https://api.kinopoisk.dev/v1.3/movie?" +
                                            "selectFields=id" +
                                            "&selectFields=name" +
-                                           "&selectFields=shortDescription" +
+                                           "&selectFields=description" +
                                            "&selectFields=genres" +
                                            "&selectFields=poster" +
                                            "&selectFields=rating.kp" +
@@ -46,6 +46,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
 
             if (!response.IsSuccessStatusCode) throw new HttpRequestException("Ошибка с работой api кинопоиска");
 
+            _numberPage++;
             return await GetMoviesFromResponse(cancellationToken, response);
         }
     }
@@ -112,7 +113,7 @@ public class GetMovieQueryHandler : IRequestHandler<GetMoviesQuery, List<MovieDt
             {
                 Id = movieData.id,
                 Title = movieData.name,
-                ShortDescription = movieData.shortDescription,
+                Description = movieData.description,
                 ReleaseYear = movieData.year,
                 PosterUrl = movieData.poster.url,
                 Rating = movieData.rating.kp,
