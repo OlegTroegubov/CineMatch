@@ -1,5 +1,7 @@
 import {Home} from "./components/Home";
 import {Movie} from "./components/Movie";
+import Registration from "./components/Registration";
+import Login from "./components/Login";
 
 const AppRoutes = [
     {
@@ -7,8 +9,16 @@ const AppRoutes = [
         element: <Home/>
     },
     {
-        path: '/getMovie',
+        path: '/movies',
         element: <Movie/>
+    },
+    {
+        path: '/login',
+        element: <Login/>
+    },
+    {
+        path: '/registration',
+        element: <Registration/>
     },
 ];
 
