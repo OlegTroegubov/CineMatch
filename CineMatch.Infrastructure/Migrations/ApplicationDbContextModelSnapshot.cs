@@ -30,15 +30,10 @@ namespace CineMatch.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.ToTable("Genres");
                 });
@@ -51,6 +46,9 @@ namespace CineMatch.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("PosterUrl")
                         .HasColumnType("text");
 
@@ -59,9 +57,6 @@ namespace CineMatch.Infrastructure.Migrations
 
                     b.Property<DateTime>("ReleaseYear")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ShortDescription")
-                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
