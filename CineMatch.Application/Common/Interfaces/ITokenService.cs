@@ -5,7 +5,7 @@ namespace CineMatch.Application.Common.Interfaces;
 public interface ITokenService
 {
     void SetRefreshToken(User user, RefreshToken refreshToken);
-    Task<string> RefreshToken();
+    Task<string> RefreshTokenAsync(CancellationToken cancellationToken);
     RefreshToken GenerateRefreshToken();
     string CreateToken(string username);
 }
