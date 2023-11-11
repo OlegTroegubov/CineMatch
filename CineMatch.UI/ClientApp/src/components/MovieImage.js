@@ -1,4 +1,4 @@
-﻿import styled from 'styled-components';
+import styled from 'styled-components';
 
 export const MovieImage = styled.img`
   max-height: 70vh;

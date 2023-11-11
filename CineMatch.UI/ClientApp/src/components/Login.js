@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 
 const Login = () => {
@@ -7,7 +7,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('/api/user/login', { username, password });
+            const response = await axios.post('/api/user/login', {username, password});
             console.log('Login successful. Token:', response.data);
         } catch (error) {
             console.error('Login failed', error);

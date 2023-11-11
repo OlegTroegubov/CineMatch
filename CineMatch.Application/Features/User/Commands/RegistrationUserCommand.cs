@@ -21,10 +21,7 @@ public class RegistrationUserCommandHandler : IRequestHandler<RegistrationUserCo
         var alreadyExists = await _context.Users.AnyAsync(user => user.Username == request.Username,
             cancellationToken);
 
-        if (alreadyExists)
-        {
-            throw new ExistsException("Пользователь с таким логином уже существует");
-        }
+        if (alreadyExists) throw new ExistsException("Пользователь с таким логином уже существует");
 
         await _context.Users.AddAsync(new Domain.Entities.User
         {
@@ -33,7 +30,7 @@ public class RegistrationUserCommandHandler : IRequestHandler<RegistrationUserCo
         }, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
-        
+
         return Unit.Value;
     }
 }

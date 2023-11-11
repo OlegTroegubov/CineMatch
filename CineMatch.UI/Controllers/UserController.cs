@@ -29,17 +29,17 @@ public class UserController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
-    
+
     [HttpPost("registration")]
     public async Task<IActionResult> Registration(RegistrationUserCommand command)
     {
         try
         {
-            return Created("",await _mediator.Send(command));
+            return Created("", await _mediator.Send(command));
         }
-        catch(ExistsException ex)
+        catch (ExistsException ex)
         {
-            return Conflict(new {message = ex.Message});
+            return Conflict(new { message = ex.Message });
         }
     }
 
@@ -50,11 +50,11 @@ public class UserController : ControllerBase
         {
             return Ok(await _mediator.Send(command, cancellationToken));
         }
-        catch(AuthException ex)
+        catch (AuthException ex)
         {
             return Unauthorized(new { message = ex.Message });
         }
-        catch(NotFoundException ex)
+        catch (NotFoundException ex)
         {
             return NotFound(new { message = ex.Message });
         }

@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         : base(options)
     {
     }
+
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<User> Users => Set<User>();
@@ -21,11 +22,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.Entity<Movie>()
             .HasMany(movie => movie.Genres)
             .WithMany();
-        
+
         modelBuilder.Entity<User>()
             .HasMany(movie => movie.LikedMovies)
             .WithMany();
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }

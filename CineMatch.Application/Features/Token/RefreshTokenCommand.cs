@@ -1,5 +1,4 @@
-﻿using CineMatch.Application.Common.Exceptions;
-using CineMatch.Application.Common.Interfaces;
+﻿using CineMatch.Application.Common.Interfaces;
 using MediatR;
 
 namespace CineMatch.Application.Features.Token;
@@ -21,5 +20,3 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, s
         return newAccessToken;
     }
 }
-
-

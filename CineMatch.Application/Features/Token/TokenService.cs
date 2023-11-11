@@ -14,11 +14,12 @@ namespace CineMatch.Application.Features.Token;
 
 public class TokenService : ITokenService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IConfiguration _configuration;
     private readonly IApplicationDbContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public TokenService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IApplicationDbContext context)
+    public TokenService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor,
+        IApplicationDbContext context)
     {
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
@@ -32,11 +33,9 @@ public class TokenService : ITokenService
             HttpOnly = true,
             Expires = refreshToken.Expired
         };
-        
+
         if (_httpContextAccessor.HttpContext != null)
-        {
             _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
-        }
         user.RefreshToken = refreshToken;
     }
 
@@ -46,17 +45,11 @@ public class TokenService : ITokenService
         {
             var user = await _context.Users.Include(user => user.RefreshToken)
                 .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name);
-            
-            var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
-            if (!user.RefreshToken.Token.Equals(refreshToken))
-            {
-                throw new TokenException("Invalid refresh token");
-            }
 
-            if (user.RefreshToken.Expired < DateTime.UtcNow)
-            {
-                throw new TokenException("Token expired");
-            }
+            var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
+            if (!user.RefreshToken.Token.Equals(refreshToken)) throw new TokenException("Invalid refresh token");
+
+            if (user.RefreshToken.Expired < DateTime.UtcNow) throw new TokenException("Token expired");
 
             SetRefreshToken(user, GenerateRefreshToken());
             return CreateToken(user.Username);
@@ -72,26 +65,28 @@ public class TokenService : ITokenService
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
             Expired = DateTime.UtcNow.AddDays(7)
         };
-        
+
         return refreshToken;
     }
 
     public string CreateToken(string username)
     {
-        var claims = new List<Claim> {
-            new(ClaimTypes.Name, username),
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.Name, username)
         };
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
         var token = new JwtSecurityToken(
-            issuer: null,
-            audience: null,
-            claims: claims,
-            notBefore: null,
-            expires: DateTime.UtcNow.AddDays(1),
-            signingCredentials: credentials
+            null,
+            null,
+            claims,
+            null,
+            DateTime.UtcNow.AddDays(1),
+            credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
