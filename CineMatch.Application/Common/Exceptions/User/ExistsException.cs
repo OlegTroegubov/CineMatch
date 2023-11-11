@@ -1,4 +1,4 @@
-﻿namespace CineMatch.Application.Common.Exceptions;
+﻿namespace CineMatch.Application.Common.Exceptions.User;
 
 public class ExistsException : Exception
 {

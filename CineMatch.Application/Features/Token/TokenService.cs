@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using CineMatch.Application.Common.Exceptions;
+using CineMatch.Application.Common.Exceptions.Auth;
 using CineMatch.Application.Common.Interfaces;
 using CineMatch.Domain.Entities;
 using Microsoft.AspNetCore.Http;
@@ -39,19 +39,21 @@ public class TokenService : ITokenService
         user.RefreshToken = refreshToken;
     }
 
-    public async Task<string> RefreshToken()
+    public async Task<string> RefreshTokenAsync(CancellationToken cancellationToken)
     {
         if (_httpContextAccessor.HttpContext != null)
         {
             var user = await _context.Users.Include(user => user.RefreshToken)
-                .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name);
+                .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name,
+                    cancellationToken);
 
             var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
-            if (!user.RefreshToken.Token.Equals(refreshToken)) throw new TokenException("Invalid refresh token");
+            if (!user.RefreshToken.Token.Equals(refreshToken)) throw new InvalidTokenException("Invalid refresh token");
 
-            if (user.RefreshToken.Expired < DateTime.UtcNow) throw new TokenException("Token expired");
+            if (user.RefreshToken.Expired < DateTime.UtcNow) throw new ExpiredTokenException("Token expired");
 
             SetRefreshToken(user, GenerateRefreshToken());
+            await _context.SaveChangesAsync(cancellationToken);
             return CreateToken(user.Username);
         }
 
