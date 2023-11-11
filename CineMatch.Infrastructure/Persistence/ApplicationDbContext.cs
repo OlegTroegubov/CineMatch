@@ -11,14 +11,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         : base(options)
     {
     }
-
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<User> Users => Set<User>();
-    
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        modelBuilder.Entity<Movie>()
+            .HasMany(movie => movie.Genres)
+            .WithMany();
         
         modelBuilder.Entity<User>()
             .HasMany(movie => movie.LikedMovies)
