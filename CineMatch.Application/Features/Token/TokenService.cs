@@ -44,7 +44,8 @@ public class TokenService : ITokenService
         if (_httpContextAccessor.HttpContext != null)
         {
             var user = await _context.Users.Include(user => user.RefreshToken)
-                .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name, cancellationToken);
+                .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name,
+                    cancellationToken);
 
             var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
             if (!user.RefreshToken.Token.Equals(refreshToken)) throw new InvalidTokenException("Invalid refresh token");
