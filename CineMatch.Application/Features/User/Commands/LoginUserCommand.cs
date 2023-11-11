@@ -1,4 +1,5 @@
-﻿using CineMatch.Application.Common.Exceptions;
+﻿using CineMatch.Application.Common.Exceptions.Auth;
+using CineMatch.Application.Common.Exceptions.User;
 using CineMatch.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

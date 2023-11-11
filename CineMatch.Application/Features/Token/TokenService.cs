@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using CineMatch.Application.Common.Exceptions;
+using CineMatch.Application.Common.Exceptions.Auth;
 using CineMatch.Application.Common.Interfaces;
 using CineMatch.Domain.Entities;
 using Microsoft.AspNetCore.Http;
