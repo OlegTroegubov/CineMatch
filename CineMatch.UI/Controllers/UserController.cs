@@ -1,4 +1,5 @@
-﻿using CineMatch.Application.Common.Exceptions;
+﻿using CineMatch.Application.Common.Exceptions.Auth;
+using CineMatch.Application.Common.Exceptions.User;
 using CineMatch.Application.Features.Token;
 using CineMatch.Application.Features.User.Commands;
 using MediatR;
@@ -23,6 +24,14 @@ public class UserController : ControllerBase
         try
         {
             return Ok(await _mediator.Send(new RefreshTokenCommand()));
+        }
+        catch (InvalidTokenException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
+        catch (ExpiredTokenException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
         }
         catch (TokenException ex)
         {

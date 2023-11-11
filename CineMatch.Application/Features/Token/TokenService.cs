@@ -47,9 +47,9 @@ public class TokenService : ITokenService
                 .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name, cancellationToken);
 
             var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
-            if (!user.RefreshToken.Token.Equals(refreshToken)) throw new TokenException("Invalid refresh token");
+            if (!user.RefreshToken.Token.Equals(refreshToken)) throw new InvalidTokenException("Invalid refresh token");
 
-            if (user.RefreshToken.Expired < DateTime.UtcNow) throw new TokenException("Token expired");
+            if (user.RefreshToken.Expired < DateTime.UtcNow) throw new ExpiredTokenException("Token expired");
 
             SetRefreshToken(user, GenerateRefreshToken());
             await _context.SaveChangesAsync(cancellationToken);
