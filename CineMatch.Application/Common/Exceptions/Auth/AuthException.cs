@@ -1,4 +1,4 @@
-﻿namespace CineMatch.Application.Common.Exceptions;
+﻿namespace CineMatch.Application.Common.Exceptions.Auth;
 
 public class AuthException : Exception
 {
