@@ -1,11 +1,13 @@
 ﻿using CineMatch.Application.Features.Movie.Dtos;
 using CineMatch.Application.Features.Movie.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatch.UI.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class MovieController : ControllerBase
 {
