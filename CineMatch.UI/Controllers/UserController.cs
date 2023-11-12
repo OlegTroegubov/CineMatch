@@ -53,7 +53,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUserCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult<TokensDto>> Login(LoginUserCommand command, CancellationToken cancellationToken)
     {
         try
         {
