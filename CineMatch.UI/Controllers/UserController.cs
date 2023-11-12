@@ -3,6 +3,7 @@ using CineMatch.Application.Common.Exceptions.User;
 using CineMatch.Application.Features.Token;
 using CineMatch.Application.Features.User.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatch.UI.Controllers;
@@ -40,11 +41,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("registration")]
-    public async Task<IActionResult> Registration(RegistrationUserCommand command)
+    public async Task<IActionResult> Registration(RegistrationUserCommand command, CancellationToken cancellationToken)
     {
         try
         {
-            return Created("", await _mediator.Send(command));
+            return Created("", await _mediator.Send(command, cancellationToken));
         }
         catch (ExistsException ex)
         {
@@ -53,7 +54,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUserCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult<TokensDto>> Login(LoginUserCommand command, CancellationToken cancellationToken)
     {
         try
         {
@@ -66,6 +67,24 @@ public class UserController : ControllerBase
         catch (NotFoundException ex)
         {
             return NotFound(new { message = ex.Message });
+        }
+    }
+    
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<ActionResult> Logout(LogoutUserCommand command, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await _mediator.Send(command, cancellationToken));
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        catch
+        {
+            return Unauthorized();
         }
     }
 }

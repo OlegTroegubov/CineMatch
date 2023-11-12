@@ -39,7 +39,7 @@ public class TokenService : ITokenService
         user.RefreshToken = refreshToken;
     }
 
-    public async Task<string> RefreshTokenAsync(CancellationToken cancellationToken)
+    public async Task<TokensDto> RefreshTokenAsync(CancellationToken cancellationToken)
     {
         if (_httpContextAccessor.HttpContext != null)
         {
@@ -47,16 +47,22 @@ public class TokenService : ITokenService
                 .FirstOrDefaultAsync(user => user.Username == _httpContextAccessor.HttpContext.User.Identity.Name,
                     cancellationToken);
 
-            var refreshToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
-            if (!user.RefreshToken.Token.Equals(refreshToken)) throw new InvalidTokenException("Invalid refresh token");
+            var refreshCookieToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
+            if (!user.RefreshToken.Token.Equals(refreshCookieToken)) throw new InvalidTokenException("Invalid refresh token");
 
             if (user.RefreshToken.Expired < DateTime.UtcNow) throw new ExpiredTokenException("Token expired");
-
-            SetRefreshToken(user, GenerateRefreshToken());
+            
+            var refreshToken = GenerateRefreshToken();
+            var accessToken = CreateToken(user.Username);
+            SetRefreshToken(user, refreshToken);
+            
             await _context.SaveChangesAsync(cancellationToken);
-            return CreateToken(user.Username);
+            return new TokensDto
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken.Token
+            };
         }
-
         throw new TokenException("Error refreshing token");
     }
 

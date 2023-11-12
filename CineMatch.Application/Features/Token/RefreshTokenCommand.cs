@@ -3,9 +3,9 @@ using MediatR;
 
 namespace CineMatch.Application.Features.Token;
 
-public record RefreshTokenCommand : IRequest<string>;
+public record RefreshTokenCommand : IRequest<TokensDto>;
 
-public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, string>
+public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, TokensDto>
 {
     private readonly ITokenService _tokenService;
 
@@ -14,9 +14,8 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, s
         _tokenService = tokenService;
     }
 
-    public async Task<string> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<TokensDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var newAccessToken = await _tokenService.RefreshTokenAsync(cancellationToken);
-        return newAccessToken;
+        return await _tokenService.RefreshTokenAsync(cancellationToken);
     }
 }
