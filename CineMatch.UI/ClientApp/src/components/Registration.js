@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -9,21 +8,29 @@ const Registration = () => {
         try {
             const requestData = {
                 username: username,
-                password: password
+                password: password,
             };
 
-            await axios.post('/api/user/registration', requestData, {
+            const response = await fetch('/api/user/registration', {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
             });
+
+            if (!response.ok) {
+                // Обработка ошибки
+                console.error(`HTTP error! Status: ${response.status}`);
+                return;
+            }
 
             console.log('Registration successful');
         } catch (error) {
+            // Обработка ошибки без повторного бросания
             console.error('Registration failed', error);
         }
     };
-
 
     return (
         <div>
