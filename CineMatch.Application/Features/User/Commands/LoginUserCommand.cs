@@ -33,7 +33,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, TokensD
         var accessToken = _tokenService.CreateToken(user.Username);
         var refreshToken = _tokenService.GenerateRefreshToken();
         
-        _tokenService.SetRefreshToken(user, _tokenService.GenerateRefreshToken());
+        _tokenService.SetRefreshToken(user, refreshToken);
         await _context.SaveChangesAsync(cancellationToken);
         return (new TokensDto
         {
