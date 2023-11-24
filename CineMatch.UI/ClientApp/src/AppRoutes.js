@@ -1,7 +1,8 @@
 import {Home} from "./components/Home";
-import {Movie} from "./components/Movie";
-import Registration from "./components/Registration";
-import Login from "./components/Login";
+import {Movie} from "./components/Movie/Movie";
+import Registration from "./components/User/Registration";
+import Login from "./components/User/Login";
+import Logout from "./components/User/Logout";
 
 const AppRoutes = [
     {
@@ -20,6 +21,10 @@ const AppRoutes = [
         path: '/registration',
         element: <Registration/>
     },
+    {
+        path: '/logout',
+        element: <Logout/>
+    }
 ];
 
 export default AppRoutes;
