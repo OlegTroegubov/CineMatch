@@ -19,12 +19,25 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("refresh-token")]
-    public async Task<IActionResult> RefreshToken()
+    [HttpPost("likeMovie")]
+    public async Task<IActionResult> LikeMovie(LikeMovieCommand command, CancellationToken cancellationToken)
     {
         try
         {
-            return Ok(await _mediator.Send(new RefreshTokenCommand()));
+            return Ok(await _mediator.Send(command, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new {message = ex.Message});
+        }
+    }
+
+    [HttpGet("refresh-token")]
+    public async Task<IActionResult> RefreshToken(RefreshTokenCommand command, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(await _mediator.Send(command, cancellationToken));
         }
         catch (InvalidTokenException ex)
         {
@@ -72,11 +85,11 @@ public class UserController : ControllerBase
     
     [Authorize]
     [HttpPost("logout")]
-    public async Task<ActionResult> Logout(LogoutUserCommand command, CancellationToken cancellationToken)
+    public async Task<ActionResult> Logout(CancellationToken cancellationToken)
     {
         try
         {
-            return Ok(await _mediator.Send(command, cancellationToken));
+            return Ok(await _mediator.Send(new LogoutUserCommand(), cancellationToken));
         }
         catch (NotFoundException ex)
         {
