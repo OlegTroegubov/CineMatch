@@ -1,29 +1,21 @@
+// Login.js
 import React, { useState } from 'react';
+import axios from 'axios';
+import {NavMenu} from "../NavMenu";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
+            const response = await axios.post('/api/user/login', {
+                Username: username,
+                Password: password,
             });
-
-            if (!response.ok) {
-                // Обработка ошибки
-                console.error(`HTTP error! Status: ${response.status}`);
-                return;
-            }
-            
-            const data = await response.json();
-            console.log('Login successful. Token:', data);
+            console.log('Login successful', response.data);
         } catch (error) {
-            console.error('Login failed', error);
+            console.error('Login failed', error.response.data.message);
         }
     };
 
