@@ -26,15 +26,13 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Unit>
             var token = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
             var user = await _context.Users.Include(user => user.RefreshToken)
                 .FirstOrDefaultAsync(user => user.RefreshToken.Token == token, cancellationToken);
-        
-            if (user == null)
-            {
-                throw new NotFoundException("Пользователь не найден");
-            }
+
+            if (user == null) throw new NotFoundException("Пользователь не найден");
             user.RefreshToken = null;
             _httpContextAccessor.HttpContext.Response.Cookies.Delete("refreshToken");
             await _context.SaveChangesAsync(cancellationToken);
         }
+
         return Unit.Value;
     }
 }

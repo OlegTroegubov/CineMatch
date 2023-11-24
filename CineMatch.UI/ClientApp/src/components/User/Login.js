@@ -1,9 +1,8 @@
 // Login.js
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import {NavMenu} from "../NavMenu";
 
-const Login = ({ onLogin }) => {
+const Login = ({onLogin}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 

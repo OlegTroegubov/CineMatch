@@ -48,14 +48,15 @@ public class TokenService : ITokenService
                     cancellationToken);
 
             var refreshCookieToken = _httpContextAccessor.HttpContext.Request.Cookies["refreshToken"];
-            if (!user.RefreshToken.Token.Equals(refreshCookieToken)) throw new InvalidTokenException("Invalid refresh token");
+            if (!user.RefreshToken.Token.Equals(refreshCookieToken))
+                throw new InvalidTokenException("Invalid refresh token");
 
             if (user.RefreshToken.Expired < DateTime.UtcNow) throw new ExpiredTokenException("Token expired");
-            
+
             var refreshToken = GenerateRefreshToken();
             var accessToken = CreateToken(user.Username);
             SetRefreshToken(user, refreshToken);
-            
+
             await _context.SaveChangesAsync(cancellationToken);
             return new TokensDto
             {
@@ -63,6 +64,7 @@ public class TokenService : ITokenService
                 RefreshToken = refreshToken.Token
             };
         }
+
         throw new TokenException("Error refreshing token");
     }
 

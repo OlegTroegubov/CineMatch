@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CineMatch.Application.Features.User.Commands;
 
-public record LikeMovieCommand (int Id, string Title, float Rating, string Description, int ReleaseYear, string PosterUrl, List<GenreDto> Genres) : IRequest;
+public record LikeMovieCommand(int Id, string Title, float Rating, string Description, int ReleaseYear,
+    string PosterUrl, List<GenreDto> Genres) : IRequest;
 
 public class LikeMovieCommandHandler : IRequestHandler<LikeMovieCommand, Unit>
 {
@@ -38,7 +39,9 @@ public class LikeMovieCommandHandler : IRequestHandler<LikeMovieCommand, Unit>
 
             foreach (var genreDto in request.Genres)
             {
-                var existingGenre = await _context.Genres.FirstOrDefaultAsync(genre => genre.Title == genreDto.Title, cancellationToken);
+                var existingGenre =
+                    await _context.Genres.FirstOrDefaultAsync(genre => genre.Title == genreDto.Title,
+                        cancellationToken);
 
                 if (existingGenre != null)
                 {
@@ -50,7 +53,7 @@ public class LikeMovieCommandHandler : IRequestHandler<LikeMovieCommand, Unit>
                     movie.Genres.Add(newGenre);
                 }
             }
-            
+
             await _context.Movies.AddAsync(movie, cancellationToken);
         }
 

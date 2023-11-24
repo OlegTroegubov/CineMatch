@@ -28,11 +28,11 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new {message = ex.Message});
+            return BadRequest(new { message = ex.Message });
         }
     }
 
-    [HttpGet("refresh-token")]
+    [HttpGet("refreshToken")]
     public async Task<IActionResult> RefreshToken(RefreshTokenCommand command, CancellationToken cancellationToken)
     {
         try
@@ -82,7 +82,7 @@ public class UserController : ControllerBase
             return NotFound(new { message = ex.Message });
         }
     }
-    
+
     [Authorize]
     [HttpPost("logout")]
     public async Task<ActionResult> Logout(CancellationToken cancellationToken)
