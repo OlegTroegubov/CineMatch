@@ -14,8 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CineMatch.Application\CineMatch.Application.csproj"/>
-        <ProjectReference Include="..\CineMatch.Domain\CineMatch.Domain.csproj"/>
+        <ProjectReference Include="..\CineMatch.Application\CineMatch.Application.csproj" />
+        <ProjectReference Include="..\CineMatch.Domain\CineMatch.Domain.csproj" />
     </ItemGroup>
 
 </Project>

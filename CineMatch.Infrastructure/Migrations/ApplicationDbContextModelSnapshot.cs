@@ -35,7 +35,7 @@ namespace CineMatch.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("CineMatch.Domain.Entities.Movie", b =>
@@ -55,15 +55,15 @@ namespace CineMatch.Infrastructure.Migrations
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("ReleaseYear")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("ReleaseYear")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("CineMatch.Domain.Entities.RefreshToken", b =>
@@ -85,7 +85,7 @@ namespace CineMatch.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("CineMatch.Domain.Entities.User", b =>
@@ -109,7 +109,7 @@ namespace CineMatch.Infrastructure.Migrations
 
                     b.HasIndex("RefreshTokenId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("GenreMovie", b =>
@@ -124,7 +124,7 @@ namespace CineMatch.Infrastructure.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("GenreMovie");
+                    b.ToTable("GenreMovie", (string)null);
                 });
 
             modelBuilder.Entity("MovieUser", b =>
@@ -139,7 +139,7 @@ namespace CineMatch.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("MovieUser");
+                    b.ToTable("MovieUser", (string)null);
                 });
 
             modelBuilder.Entity("CineMatch.Domain.Entities.User", b =>

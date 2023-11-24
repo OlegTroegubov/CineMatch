@@ -21,7 +21,7 @@ namespace CineMatch.Infrastructure.Migrations
                     Title = table.Column<string>(type: "text", nullable: true),
                     Rating = table.Column<float>(type: "real", nullable: false),
                     ShortDescription = table.Column<string>(type: "text", nullable: true),
-                    ReleaseYear = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ReleaseYear = table.Column<int>(type: "integer", nullable: false),
                     PosterUrl = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

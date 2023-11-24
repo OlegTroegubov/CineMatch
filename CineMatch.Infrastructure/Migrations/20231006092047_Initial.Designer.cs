@@ -60,8 +60,8 @@ namespace CineMatch.Infrastructure.Migrations
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("ReleaseYear")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("ReleaseYear")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text");
